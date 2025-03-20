@@ -4,8 +4,62 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31f91bfac1ed178dbae6c12ac6c66a97",
+    "content-hash": "9905a58b46219b60d6d65caf367c904d",
     "packages": [
+        {
+            "name": "angrybytes/hash",
+            "version": "6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AngryBytes/hash.git",
+                "reference": "3e41c0093e0bca24490432bde374e4113a6a4a0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AngryBytes/hash/zipball/3e41c0093e0bca24490432bde374e4113a6a4a0b",
+                "reference": "3e41c0093e0bca24490432bde374e4113a6a4a0b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "8.2 - 8.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.65",
+                "phpstan/phpstan": "2.0.3",
+                "phpunit/phpunit": "11.5.1",
+                "squizlabs/php_codesniffer": "3.11.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "AngryBytes\\Hash": "src/",
+                    "AngryBytes\\Hash\\Test": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Angry Bytes BV",
+                    "email": "info@angrybytes.com",
+                    "homepage": "http://angrybytes.com/",
+                    "role": "owner"
+                },
+                {
+                    "name": "Maurice Fonk",
+                    "email": "maurice@naneau.net",
+                    "role": "developer"
+                }
+            ],
+            "description": "Object Oriented hash interface",
+            "support": {
+                "issues": "https://github.com/AngryBytes/hash/issues",
+                "source": "https://github.com/AngryBytes/hash/tree/6.0.0"
+            },
+            "time": "2024-12-13T09:51:53+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.12.3",
@@ -134,6 +188,73 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "defuse/php-encryption",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/defuse/php-encryption.git",
+                "reference": "f53396c2d34225064647a05ca76c1da9d99e5828"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/defuse/php-encryption/zipball/f53396c2d34225064647a05ca76c1da9d99e5828",
+                "reference": "f53396c2d34225064647a05ca76c1da9d99e5828",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "paragonie/random_compat": ">= 2",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5|^6|^7|^8|^9|^10",
+                "yoast/phpunit-polyfills": "^2.0.0"
+            },
+            "bin": [
+                "bin/generate-defuse-key"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Defuse\\Crypto\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Hornby",
+                    "email": "taylor@defuse.ca",
+                    "homepage": "https://defuse.ca/"
+                },
+                {
+                    "name": "Scott Arciszewski",
+                    "email": "info@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "Secure PHP Encryption Library",
+            "keywords": [
+                "aes",
+                "authenticated encryption",
+                "cipher",
+                "crypto",
+                "cryptography",
+                "encrypt",
+                "encryption",
+                "openssl",
+                "security",
+                "symmetric key cryptography"
+            ],
+            "support": {
+                "issues": "https://github.com/defuse/php-encryption/issues",
+                "source": "https://github.com/defuse/php-encryption/tree/v2.4.0"
+            },
+            "time": "2023-06-19T06:10:36+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -2507,6 +2628,56 @@
                 }
             ],
             "time": "2024-11-21T10:39:51+00:00"
+        },
+        {
+            "name": "paragonie/random_compat",
+            "version": "v9.99.100",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/random_compat.git",
+                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/996434e5492cb4c3edcb9168db6fbb1359ef965a",
+                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*|5.*",
+                "vimeo/psalm": "^1"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+            "keywords": [
+                "csprng",
+                "polyfill",
+                "pseudorandom",
+                "random"
+            ],
+            "support": {
+                "email": "info@paragonie.com",
+                "issues": "https://github.com/paragonie/random_compat/issues",
+                "source": "https://github.com/paragonie/random_compat"
+            },
+            "time": "2020-10-15T08:29:30+00:00"
         },
         {
             "name": "phpoption/phpoption",
