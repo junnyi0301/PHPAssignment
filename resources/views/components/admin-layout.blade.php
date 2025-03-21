@@ -20,7 +20,7 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
+        @include('layouts.admin_navigation')
 
         <!-- Page Heading -->
         @isset($header)
@@ -31,10 +31,20 @@
             </header>
         @endisset
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+        <!-- Left Section -->
+        <div class="flex flex-row h-screen">
+            <div class="w-2/12 flex flex-col shadow-md font-semibold text-xl text-center pt-6" id="left-section"
+                style="background-color:  white">
+                <a href="#" class="mb-4">Users</a>
+                <a href="#" class="mb-4">Products</a>
+            </div>
+            <div class="w-full" id="right-section">
+                <!-- Page Content -->
+                <main>
+                    {{ $slot }}
+                </main>
+            </div>
+        </div>
     </div>
 </body>
 
