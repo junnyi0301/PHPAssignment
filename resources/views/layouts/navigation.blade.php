@@ -15,7 +15,7 @@
                     <x-nav-link :href="route('home')" :active="true">
                         {{ __('Home') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('home')" :active="true">
+                    <x-nav-link :href="route('menu')" :active="true">
                         {{ __('Menu') }}
                     </x-nav-link>
                     <x-nav-link :href="route('home')" :active="true">
