@@ -18,16 +18,6 @@ class Food extends Model
         'category',
     ];
 
-    public function allowSize()
-    {
-        return $this->category !== "Drinks";
-    }
-
-    public function allowTemperature()
-    {
-        return $this->category === "Drinks";
-    }
-
     protected $casts = [
         'price' => 'decimal:2',
     ];

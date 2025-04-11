@@ -2,60 +2,14 @@
 
 namespace App\Decorator;
 
-namespace App\Models;
+use App\Decorator\FoodInterface;
 
-abstract class FoodDecorator extends Food
+abstract class FoodDecorator implements FoodInterface
 {
-    protected $food;
+    protected FoodInterface $food;
 
-    public function __construct(Food $food)
+    public function __construct(FoodInterface $food)
     {
         $this->food = $food;
-    }
-
-    public function getName()
-    {
-        return $this->food->name;
-    }
-
-    public function getPrice()
-    {
-        return $this->food->price;
-    }
-
-    public function getDescription()
-    {
-        return $this->food->description;
-    }
-}
-
-class SizeDecorator extends FoodDecorator
-{
-    private $size;
-    private $price;
-
-    public function __construct(Food $food, $size)
-    {
-        parent::__construct($food);
-
-        if (!$food->allowSize()) {
-            $this->size = $size;
-        } else {
-            $this->size = $food->size;
-            $this->price = $food->price + 5.00;
-        }
-    }
-}
-
-class TemperatureDecorator extends FoodDecorator
-{
-    private $temperature;
-
-    public function __construct(Food $food, $temperature)
-    {
-        parent::__construct($food);
-        if (!$food->allowTemperature()) {
-            $this->temperature = $temperature;
-        }
     }
 }

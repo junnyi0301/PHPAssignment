@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -25,16 +28,18 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'prevent-back-history')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/menu', function () {
-    return view('components.menu', [
-        'products' => Food::all()
-    ]);
-})->middleware('auth', 'prevent-back-history')->name('menu');
+Route::middleware('auth', 'prevent-back-history')->group(function () {
+    Route::post('/payment', [MenuController::class, 'payment'])->name('payment');
+    Route::get('/menu', function () {
+        return view('order.menu', ['products' => Food::all()]);
+    })->name('menu');
+});
+
 
 require __DIR__ . '/auth.php';

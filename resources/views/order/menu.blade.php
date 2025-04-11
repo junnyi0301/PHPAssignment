@@ -16,7 +16,7 @@
                     <p class="pt-1 text-gray-900">RM{{ $product->price }}</p>
                     <button
                         class="bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-3"
-                        onclick="addToCart({{ $product }})">
+                        onclick="productOverlay({{ $product }})">
                         Add to Cart
                     </button>
                 </div>
@@ -24,7 +24,7 @@
         </div>
         <div
             class="container w-1/4 min-h-screen bg-white shadow-lg border-t-2 border-gray-300 items-center flex flex-col">
-            <div class="flex flex-col justify-start w-full px-4">
+            <div class="flex flex-col justify-start w-full px-4 sticky top-0">
                 <h2 class="font-semibold text-xl text-gray-800 p-4 text-center">Cart</h2>
                 <hr class="mb-6 w-full">
                 <div id="cart-items" class="flex flex-col justify-start px-6 w-full max-h-96 overflow-y-scroll">
@@ -43,8 +43,35 @@
                         <h2 class="font-semibold">Total</h2>
                         <h2>RM100</h2>
                     </div>
-                    <button type="submit"
-                        class="my-4 p-4 bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-semibold rounded-lg w-full">Checkout</button>
+                    <form action="{{ route('payment') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="subtotal" value="100">
+                        <input type="hidden" name="tax" value="100">
+                        <input type="hidden" name="total" value="100">
+                        <input type="hidden" name="xml" id="cart-xml">
+                        <button type="submit"
+                            class="my-4 p-4 bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-semibold rounded-lg w-full">Checkout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="productOverlayBox"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-xl p-6 w-96 shadow-lg relative">
+                <div>
+                    <h2 class="text-xl font-semibold mb-4 text-center">Choose Option</h2>
+                    <div class="flex flex-col gap-3 mb-4">
+                        <label><input type="radio" name="option" value="Small" class="mr-2">Small</label>
+                        <label><input type="radio" name="option" value="Large" class="mr-2">Large</label>
+                    </div>
+                </div>
+
+                <div class="flex justify-between">
+                    <button type="button" onclick="confirmOption()"
+                        class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg">Confirm</button>
+                    <button type="button" onclick="closeOverlay()"
+                        class="text-gray-600 hover:underline">Cancel</button>
                 </div>
             </div>
         </div>
@@ -54,18 +81,20 @@
         const serializer = new XMLSerializer();
 
         // Start with an empty cart XML
-        let cartXml = parser.parseFromString(`<cart></cart>`, "application/xml");
+        let cartXml = parser.parseFromString('<cart></cart>', "application/xml");
 
-        function addToCart(product, size) {
+        loadCart(serializer.serializeToString(cartXml));
+
+        function addToCart(product, option) {
             const items = cartXml.getElementsByTagName('item');
             let found = false;
 
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 const itemId = item.getElementsByTagName('id')[0].textContent;
-                const itemSize = item.getElementsByTagName('size')[0].textContent;
+                const itemOption = item.getElementsByTagName('option')[0].textContent;
 
-                if (itemId == product.id) {
+                if (itemId == product.id && itemOption == option) {
                     // Item exists, increase quantity
                     const quantityEl = item.getElementsByTagName('quantity')[0];
                     quantityEl.textContent = parseInt(quantityEl.textContent) + 1;
@@ -86,8 +115,8 @@
                 const nameNode = cartXml.createElement('name');
                 nameNode.textContent = product.name;
 
-                const sizeNode = cartXml.createElement('size');
-                sizeNode.textContent = size;
+                const optionNode = cartXml.createElement('option');
+                optionNode.textContent = option;
 
                 const priceNode = cartXml.createElement('price');
                 priceNode.textContent = product.price;
@@ -98,7 +127,7 @@
                 root.appendChild(idNode);
                 root.appendChild(imageNode);
                 root.appendChild(nameNode);
-                root.appendChild(sizeNode);
+                root.appendChild(optionNode);
                 root.appendChild(priceNode);
                 root.appendChild(quantityNode);
 
@@ -125,15 +154,15 @@
             cartSection.appendChild(resultDocument);
         }
 
-        function removeItem(id) {
+        function removeItem(id, option) {
             const items = cartXml.getElementsByTagName('item');
 
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 const itemId = item.getElementsByTagName('id')[0].textContent;
-                const itemSize = item.getElementsByTagName('size')[0].textContent;
+                const itemOption = item.getElementsByTagName('option')[0].textContent;
 
-                if (itemId == id) {
+                if (itemId == id && itemOption == option) {
                     // Reduce quantity
                     const quantityEl = item.getElementsByTagName('quantity')[0];
                     quantityEl.textContent = parseInt(quantityEl.textContent) - 1;
@@ -147,6 +176,21 @@
             }
             console.log(serializer.serializeToString(cartXml));
             loadCart(serializer.serializeToString(cartXml));
+        }
+
+        function productOverlay(product) {
+            window.selectedProduct = product;
+            document.getElementById('productOverlayBox').classList.remove('hidden');
+        }
+
+        function confirmOption() {
+            const option = document.querySelector('input[name="option"]:checked').value;
+            addToCart(window.selectedProduct, option);
+            closeOverlay();
+        }
+
+        function closeOverlay() {
+            document.getElementById('productOverlayBox').classList.add('hidden');
         }
     </script>
 </x-app-layout>
