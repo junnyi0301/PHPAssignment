@@ -10,13 +10,13 @@
                 <div class="xl:w-1/3"
                     style="display: flex; flex-flow: column; justify-content: center; align-items: center; padding-bottom: 48px; padding: 16px;">
                     <img class="w-32 h-32 md:w-48 md:h-48 xl:w-64 xl:h-64 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:grow hover:shadow-lg rounded-lg"
-                        src="{{ $product->image }}">
-                    <p class="font-semibold pt-1">{{ $product->name }}</p>
-                    <p class="pt-1 text-center w-2/3 text-gray-500 h-20">{{ $product->description }}</p>
-                    <p class="pt-1 text-gray-900">RM{{ $product->price }}</p>
+                        src="{{ $product->getFood()->getImage() }}">
+                    <p class="font-semibold pt-1">{{ $product->getFood()->getName() }}</p>
+                    <p class="pt-1 text-center w-2/3 text-gray-500 h-20">{{ $product->getFood()->getDescription() }}</p>
+                    <p class="pt-1 text-gray-900">RM{{ $product->getFood()->getPrice() }}</p>
                     <button
                         class="bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-3"
-                        onclick="productOverlay({{ $product }})">
+                        onclick="productOverlay( {{ $product->getFood()->getFood() }}, {{ json_encode($product->getOptions()) }})">
                         Add to Cart
                     </button>
                 </div>
@@ -61,9 +61,7 @@
             <div class="bg-white rounded-xl p-6 w-96 shadow-lg relative">
                 <div>
                     <h2 class="text-xl font-semibold mb-4 text-center">Choose Option</h2>
-                    <div class="flex flex-col gap-3 mb-4">
-                        <label><input type="radio" name="option" value="Small" class="mr-2">Small</label>
-                        <label><input type="radio" name="option" value="Large" class="mr-2">Large</label>
+                    <div class="flex flex-col gap-3 mb-4" id='optionsGroup'>
                     </div>
                 </div>
 
@@ -85,7 +83,7 @@
 
         loadCart(serializer.serializeToString(cartXml));
 
-        function addToCart(product, option) {
+        function addToCart(product, option, optionPrice) {
             const items = cartXml.getElementsByTagName('item');
             let found = false;
 
@@ -119,7 +117,7 @@
                 optionNode.textContent = option;
 
                 const priceNode = cartXml.createElement('price');
-                priceNode.textContent = product.price;
+                priceNode.textContent = (Number(product.price) + Number(optionPrice)).toFixed(2);
 
                 const quantityNode = cartXml.createElement('quantity');
                 quantityNode.textContent = 1;
@@ -178,14 +176,38 @@
             loadCart(serializer.serializeToString(cartXml));
         }
 
-        function productOverlay(product) {
+        function productOverlay(product, options) {
             window.selectedProduct = product;
+            optionsGroup = document.getElementById('optionsGroup');
+            optionsGroup.innerHTML = '';
+            Object.entries(options).forEach(([key, value]) => {
+                let label = document.createElement('label');
+                label.classList.add('mr-2');
+
+                // Create radio input element
+                let radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.name = 'option';
+                radioInput.value = value;
+
+                // Create text node for the option label
+                let textNode = document.createTextNode(" " + key + " + RM" + value);
+
+                // Append the radio input and text to the label
+                label.appendChild(radioInput);
+                label.appendChild(textNode);
+
+                // Append the label to the options group container
+                optionsGroup.appendChild(label);
+            });
             document.getElementById('productOverlayBox').classList.remove('hidden');
         }
 
         function confirmOption() {
-            const option = document.querySelector('input[name="option"]:checked').value;
-            addToCart(window.selectedProduct, option);
+            const checkedRadio = document.querySelector('input[name="option"]:checked');
+            const option = checkedRadio ? checkedRadio.parentElement.textContent.trim() : null;
+            const optionPrice = document.querySelector('input[name="option"]:checked').value;
+            addToCart(window.selectedProduct, option, optionPrice);
             closeOverlay();
         }
 

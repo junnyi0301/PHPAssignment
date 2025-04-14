@@ -36,9 +36,7 @@ Route::middleware('auth', 'prevent-back-history')->group(function () {
 
 Route::middleware('auth', 'prevent-back-history')->group(function () {
     Route::post('/payment', [MenuController::class, 'payment'])->name('payment');
-    Route::get('/menu', function () {
-        return view('order.menu', ['products' => Food::all()]);
-    })->name('menu');
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 });
 
 

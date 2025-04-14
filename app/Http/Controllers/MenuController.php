@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Decorators\SizeDecorator;
+use App\Decorators\FoodDecorator;
 use App\Models\Order;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
-use App\Decorator\FoodProduct;
-use App\Decorator\SizeDecorator;
+use App\Models\Food;
 
 class MenuController extends Controller
 {
@@ -14,11 +15,6 @@ class MenuController extends Controller
     {
         $xml = $request->input('xml');
         $xmlObject = simplexml_load_string($xml);
-
-        foreach ($xmlObject->item as $item) {
-            $product = new FoodProduct($item->name, $item->price);
-            $decoratedProduct = new SizeDecorator($product, $item->option);
-        }
 
 
         foreach ($xmlObject->item as $item) {
@@ -37,5 +33,19 @@ class MenuController extends Controller
         ];
 
         return view('payment.payment', [$paymentAmount]);
+    }
+
+    public function index()
+    {
+        $foods = Food::all();
+        $foodList = [];
+
+        foreach ($foods as $food) {
+            $decorator = new FoodDecorator($food);
+            $sizeDecorated = new SizeDecorator($decorator);
+            $foodList[] = $sizeDecorated;
+        }
+
+        return view('order.menu', ['products' => $foodList]);
     }
 }
