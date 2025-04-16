@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('food_id')->constrained();
-            $table->string('option');
-            $table->integer('quantity');
+            $table->text('xml');
+            $table->string('address');
+            $table->string('postal_code');
+            $table->string('city');
+            $table->string('payment_method');
+            $table->string('consumeMethod');
+            $table->float('totalPrice')->float(2);
             $table->timestamps();
         });
     }

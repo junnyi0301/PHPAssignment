@@ -18,9 +18,6 @@
                     <x-nav-link :href="route('menu')" :active="true">
                         {{ __('Menu') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('home')" :active="true">
-                        {{ __('Membership') }}
-                    </x-nav-link>
                     @if (isset(Auth::user()->name))
                         @if (Auth::user()->role == 'admin')
                             <x-nav-link :href="route('admin')" :active="true">

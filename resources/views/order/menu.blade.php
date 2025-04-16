@@ -1,4 +1,5 @@
 <x-app-layout>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Menu') }}
@@ -33,23 +34,20 @@
                 <div class="flex flex-col">
                     <div class="flex flex-row justify-between">
                         <h2 class="font-semibold">Subtotal</h2>
-                        <h2>RM100</h2>
+                        <h2 id="subtotal">RM100</h2>
                     </div>
                     <div class="flex flex-row justify-between">
                         <h2 class="font-semibold">Tax</h2>
-                        <h2>RM100</h2>
+                        <h2 id="tax">RM100</h2>
                     </div>
                     <div class="flex flex-row justify-between">
                         <h2 class="font-semibold">Total</h2>
-                        <h2>RM100</h2>
+                        <h2 id="total">RM100</h2>
                     </div>
-                    <form action="{{ route('payment') }}" method="POST">
+                    <form action="/payment" method="POST" id="checkoutForm">
                         @csrf
-                        <input type="hidden" name="subtotal" value="100">
-                        <input type="hidden" name="tax" value="100">
-                        <input type="hidden" name="total" value="100">
-                        <input type="hidden" name="xml" id="cart-xml">
-                        <button type="submit"
+                        <input type="hidden" name="xmlInput" id="xmlInput" value="">
+                        <button type="button" onclick="checkout()"
                             class="my-4 p-4 bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-semibold rounded-lg w-full">Checkout
                         </button>
                     </form>
@@ -82,6 +80,11 @@
         let cartXml = parser.parseFromString('<cart></cart>', "application/xml");
 
         loadCart(serializer.serializeToString(cartXml));
+
+        function checkout() {
+            document.getElementById('xmlInput').value = serializer.serializeToString(cartXml);
+            document.getElementById('checkoutForm').submit();
+        }
 
         function addToCart(product, option, optionPrice) {
             const items = cartXml.getElementsByTagName('item');
@@ -150,6 +153,29 @@
             const cartSection = document.getElementById('cart-items');
             cartSection.innerHTML = '';
             cartSection.appendChild(resultDocument);
+
+            const xpathResult = xmlDoc.evaluate("//price", xmlDoc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+
+            let total = 0;
+            for (let i = 0; i < xpathResult.snapshotLength; i++) {
+                total += parseFloat(xpathResult.snapshotItem(i).textContent);
+            }
+
+            // Display total
+            const subtotalDisplay = document.getElementById('subtotal');
+            if (subtotalDisplay) {
+                subtotalDisplay.textContent = "RM " + total.toFixed(2);
+            }
+
+            const taxDisplay = document.getElementById('tax');
+            if (taxDisplay) {
+                taxDisplay.textContent = "RM " + (total * 0.06).toFixed(2);
+            }
+
+            const totalDisplay = document.getElementById('total');
+            if (totalDisplay) {
+                totalDisplay.textContent = "RM " + (total * 1.06).toFixed(2);
+            }
         }
 
         function removeItem(id, option) {
@@ -206,8 +232,9 @@
         function confirmOption() {
             const checkedRadio = document.querySelector('input[name="option"]:checked');
             const option = checkedRadio ? checkedRadio.parentElement.textContent.trim() : null;
+            const onlyName = option.split('+')[0].trim();
             const optionPrice = document.querySelector('input[name="option"]:checked').value;
-            addToCart(window.selectedProduct, option, optionPrice);
+            addToCart(window.selectedProduct, onlyName, optionPrice);
             closeOverlay();
         }
 

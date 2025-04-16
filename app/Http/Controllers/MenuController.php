@@ -13,26 +13,9 @@ class MenuController extends Controller
 {
     public function payment(Request $request)
     {
-        $xml = $request->input('xml');
-        $xmlObject = simplexml_load_string($xml);
+        $xml = $request->input('xmlInput');
 
-
-        foreach ($xmlObject->item as $item) {
-            Order::create([
-                'food_id' => $xml['id'],
-                'option' => $xml['option'],
-                'quantity' => $xml['quantity'],
-                'user_id' => Auth::user()->id,
-            ]);
-        }
-
-        $paymentAmount = [
-            'subtotal' => $request->input('subtotal'),
-            'tax' => $request->input('tax'),
-            'total' => $request->input('total'),
-        ];
-
-        return view('payment.payment', [$paymentAmount]);
+        return view('payment.payment', ['xml' => $xml]);
     }
 
     public function index()
@@ -47,5 +30,22 @@ class MenuController extends Controller
         }
 
         return view('order.menu', ['products' => $foodList]);
+    }
+
+    public function pay(Request $request)
+    {
+        if ($request->input('consumeMethod' == 'dineIn')) {
+            Order::create([
+                'user_id' => Auth::user()->id,
+                'xml' => $request->input('xmlInput'),
+                'address' => $request->input('address'),
+                'postal_code' => $request->input('postalCode'),
+                'city' => $request->input('city'),
+                'payment_method' => $request->input('paymentMethod'),
+                'consumeMethod' => $request->input('consumeMethod'),
+                'totalPrice' => 100
+            ]);
+        } else {
+        }
     }
 }

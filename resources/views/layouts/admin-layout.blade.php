@@ -18,7 +18,7 @@
     @vite(['resources/css/app2.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased h-screen">
     <div class="min-h-screen bg-gray-100">
         @include('layouts.admin_navigation')
 
@@ -32,15 +32,16 @@
         @endisset
 
         <!-- Left Section -->
-        <div class="flex flex-row h-screen">
-            <div class="w-2/12 flex flex-col shadow-md font-semibold text-xl text-center pt-6" id="left-section"
-                style="background-color:  white">
+        <div class="flex flex-row">
+            <div class="w-2/12 flex flex-col shadow-md font-semibold text-xl text-center pt-6 h-screen"
+                id="left-section" style="background-color:  white">
                 <a href="#" class="mb-4">Users</a>
-                <a href="#" class="mb-4">Products</a>
+                <a href="{{ route('admin') }}" class="mb-4">Products</a>
+                <a href="{{ route('admin.create') }}" class="mb-4">Create</a>
             </div>
             <div class="w-full" id="right-section">
                 <!-- Page Content -->
-                <main>
+                <main class="">
                     {{ $slot }}
                 </main>
             </div>
