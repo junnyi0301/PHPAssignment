@@ -9,7 +9,6 @@
 
         <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('POST')
             <div class="mb-4">
                 <a onclick="document.getElementById('imageInput').click()">
                     <img id="foodImage" src="{{ asset('storage/images/empty/empty.jpg') }}" alt="Empty"

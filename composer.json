@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.2",
         "angrybytes/hash": "^6.0",
+        "codeat3/blade-humbleicons": "^1.1",
         "defuse/php-encryption": "^2.4",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"

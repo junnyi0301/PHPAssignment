@@ -32,19 +32,11 @@
         @endisset
 
         <!-- Left Section -->
-        <div class="flex flex-row">
-            <div class="w-2/12 flex flex-col shadow-md font-semibold text-xl text-center pt-6 h-screen"
-                id="left-section" style="background-color:  white">
-                <a href="#" class="mb-4">Users</a>
-                <a href="{{ route('admin') }}" class="mb-4">Products</a>
-                <a href="{{ route('admin.create') }}" class="mb-4">Create</a>
-            </div>
-            <div class="w-full" id="right-section">
-                <!-- Page Content -->
-                <main class="">
-                    {{ $slot }}
-                </main>
-            </div>
+        <div class="w-full" id="right-section">
+            <!-- Page Content -->
+            <main class="">
+                {{ $slot }}
+            </main>
         </div>
     </div>
 </body>

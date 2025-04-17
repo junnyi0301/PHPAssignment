@@ -36,29 +36,26 @@ class FoodController extends Controller
             'price' => 'required|numeric',
             'description' => 'nullable|string',
             'category' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp',  // Validate the image
+            'image' => 'nullable|image|max:5120',
         ]);
 
         $food = Food::create([
             'name' => $request->name,
             'price' => $request->price,
             'category' => $request->category,
+            'image' => 'storage/images/empty/empty.jpg',
             'description' => $request->description,
         ]);
 
-        $extension = $request->file('image')->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $filename = $food->id . '.' . $extension;
+            $food->image = 'storage/images/products/' . $filename;
 
-        // Define the image filename using the product ID
-        $filename = $food->id . '.' . $extension;
+            $uploadSuccess   = $request->file('image')->move('storage/images/products', $filename);
 
-        // Store the image in the public/food_images directory with the new filename
-        $path = $request->file('image')->storeAs('public/images/products', $filename);
-
-        // Save the image path in the database (adjust path for storage link)
-        $food->image = 'storage/images/products/' . $filename;
-
-        // Save the updated product with the image path
-        $food->save();
+            $food->save();
+        }
 
         return redirect()->route('admin');
     }
@@ -89,13 +86,26 @@ class FoodController extends Controller
             'price' => 'required|numeric',
             'description' => 'nullable|string',
             'category' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp',
+            'image' => 'nullable|image|max:5120',
         ]);
 
         $food->name = $request->name;
         $food->price = $request->price;
         $food->category = $request->category;
         $food->description = $request->description;
+
+        if ($request->hasFile('image')) {
+            $imagePath = public_path($food->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $filename = $food->id . '.' . $extension;
+            $food->image = 'storage/images/products/' . $filename;
+
+            $uploadSuccess = $request->file('image')->move('storage/images/products', $filename);
+        }
 
         $food->save();
 
@@ -107,6 +117,15 @@ class FoodController extends Controller
      */
     public function destroy(Food $food)
     {
-        //
+
+        $imagePath = public_path($food->image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+
+        $food->delete();
+
+        return redirect()->route('admin')->with('success', 'Product deleted successfully!');
     }
 }
