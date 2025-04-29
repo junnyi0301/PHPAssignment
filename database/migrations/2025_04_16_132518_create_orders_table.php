@@ -14,13 +14,16 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->text('xml');
+            $table->text('order');
             $table->string('address');
             $table->string('postal_code');
             $table->string('city');
             $table->string('payment_method');
             $table->string('consumeMethod');
             $table->float('totalPrice')->float(2);
+            $table->float('taxPrice')->float(2);
+            $table->float('subtotalPrice')->float(2);
+            $table->string('status');
             $table->timestamps();
         });
     }

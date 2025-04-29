@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use App\Models\Food;
+use Illuminate\Support\Facades\Http;
 
 class MenuController extends Controller
 {
@@ -29,23 +30,17 @@ class MenuController extends Controller
             $foodList[] = $sizeDecorated;
         }
 
-        return view('order.menu', ['products' => $foodList]);
-    }
+        $westernFoods = [];
 
-    public function pay(Request $request)
-    {
-        if ($request->input('consumeMethod' == 'dineIn')) {
-            Order::create([
-                'user_id' => Auth::user()->id,
-                'xml' => $request->input('xmlInput'),
-                'address' => $request->input('address'),
-                'postal_code' => $request->input('postalCode'),
-                'city' => $request->input('city'),
-                'payment_method' => $request->input('paymentMethod'),
-                'consumeMethod' => $request->input('consumeMethod'),
-                'totalPrice' => 100
-            ]);
-        } else {
+        try {
+            $response = Http::get('http://127.0.0.1:8001/api/western-food');
+            if ($response->successful()) {
+                $westernFoods = $response->json();
+            }
+        } catch (\Exception $e) {
+            // handle error, maybe log it or show a message
         }
+
+        return view('order.menu', ['products' => $foodList, 'westernFoods' => $westernFoods]);
     }
 }

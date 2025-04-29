@@ -8,12 +8,15 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id',
-        'xml',
+        'order',
         'address',
         'postal_code',
         'city',
         'payment_method',
         'consumeMethod',
         'totalPrice',
+        'taxPrice',
+        'subtotalPrice',
+        'status'
     ];
 }

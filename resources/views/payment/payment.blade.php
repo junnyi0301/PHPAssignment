@@ -4,7 +4,7 @@
             {{ __('Payment') }}
         </h2>
     </x-slot>
-    <form action="/pay" method="POST">
+    <form action="{{ route('pay') }}" method="POST">
         @csrf
         <div class="container flex flex-row m-auto w-2/3 h-auto">
             <div class="w-2/3 flex flex-col justify-start">
@@ -34,34 +34,15 @@
                 <div class="sticky top-0 mx-4">
                     <h2 class="font-semibold text-xl text-gray-800 p-4 text-center">Payment</h2>
                     <hr class="mb-4">
-                    <input type="hidden" name="xmlInput" value="{{ $xml }}">
+                    <input type="hidden" name="order" value="{{ $xml }}">
                     <label for="address" class="h-4">Address</label>
-                    <input type="text" name="address" id="address" class="w-full h-8 mb-4 rounded-lg">
+                    <input type="text" name="address" class="w-full h-8 mb-4 rounded-lg">
                     <label for="postalCode" class="h-4">Postal Code</label>
-                    <input type="text" name="postalCode" id="address" class="w-full h-8 mb-4 rounded-lg">
+                    <input type="text" name="postalCode" class="w-full h-8 mb-4 rounded-lg">
                     <label for="city" class="h-4">City</label>
-                    <input type="text" name="city" id="address" class="w-full h-8 mb-4 rounded-lg">
+                    <input type="text" name="city" class="w-full h-8 mb-4 rounded-lg">
                     <label for="country" class="h-4">Country</label>
-                    <input type="text" name="country" id="address" class="w-full h-8 mb-4 rounded-lg">
-                    <div class="flex flex-col">
-                        <h2 class="text-xl font-semibold text-center mt-6">
-                            Payment Method
-                        </h2>
-                        <hr class="my-4">
-                        <div class="flex flex-row justify-start mb-4">
-                            <input type="radio" name="paymentMethod" id="creditCard" value="creditCard"
-                                class="my-auto">
-                            <label for="creditCard" class="ml-2">Credit Card</label>
-                        </div>
-                        <div class="flex flex-row justify-start mb-4">
-                            <input type="radio" name="paymentMethod" id="qrPay" value="qrPay" class="my-auto">
-                            <label for="qrPay" class="ml-2">QR Pay</label>
-                        </div>
-                        <div class="flex flex-row justify-start mb-4">
-                            <input type="radio" name="paymentMethod" id="cash" value="cash" class="my-auto">
-                            <label for="cash" class="ml-2">Cash</label>
-                        </div>
-                    </div>
+                    <input type="text" name="country" class="w-full h-8 mb-4 rounded-lg">
                     <hr class="mt-4">
                     <div class="mt-6 flex flex-row justify-between mx-16">
                         <div class="flex flex-row justify-start mb-4">
@@ -69,14 +50,17 @@
                             <label for="dineIn" class="ml-2">Dine In</label>
                         </div>
                         <div class="flex flex-row justify-start mb-4">
-                            <input type="radio" name="consumeMethod" id="delivery" value="delivery"
-                                class="my-auto">
+                            <input type="radio" name="consumeMethod" id="delivery" value="delivery" class="my-auto">
                             <label for="takeAway" class="ml-2">Delivery</label>
                         </div>
                     </div>
                     <button type="submit"
                         class="my-4 p-4 bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-semibold rounded-lg w-full">Pay
-                        Now</button>
+                        with Cash</button>
+                    <button type="submit"
+                        class="my-4 p-4 bg-gray-700 hover:bg-black transition duration-300 ease-in-out text-white font-semibold rounded-lg w-full">
+                        Pay with PayPal
+                    </button>
                 </div>
             </div>
         </div>

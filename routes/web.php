@@ -5,8 +5,10 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\WesternFoodController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Food;
+use Faker\Provider\ar_EG\Payment;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -32,7 +34,6 @@ Route::middleware('auth', 'prevent-back-history')->group(function () {
 
 Route::middleware('auth', 'prevent-back-history')->group(function () {
     Route::post('/payment', [MenuController::class, 'payment'])->name('payment');
-    Route::post('/pay', [MenuController::class, 'pay'])->name('pay');
     Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 });
 
@@ -44,11 +45,23 @@ Route::middleware('auth', 'prevent-back-history')->group(function () {
         return view('admin.product.create');
     })->name('admin.create');
 
+    Route::get('/payment/paymentSuccess', function () {
+        return view('payment.paymentSuccess');
+    })->name('paymentSuccess');
+
     Route::get('/admin/edit/{food}', [FoodController::class, 'edit'])->name('admin.edit');
     Route::patch('/admin/update/{food}', [FoodController::class, 'update'])->name('admin.update');
     Route::delete('/admin/{food}', [FoodController::class, 'destroy'])->name('admin.destroy');
     Route::post('/admin/store', [FoodController::class, 'store'])->name('admin.store');
 });
+
+Route::get('/western-food', [WesternFoodController::class, 'index']);
+
+Route::post('/pay', [PaymentController::class, 'pay'])->name("pay");
+
+Route::get('success', [PaymentController::class, 'success'])->name('success');
+Route::get('error', [PaymentController::class, 'error'])->name('error');
+
 
 
 
