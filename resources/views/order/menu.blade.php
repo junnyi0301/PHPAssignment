@@ -6,22 +6,45 @@
         </h2>
     </x-slot>
     <div class="container flex flex-row m-auto">
-        <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12 w-3/4 h-auto m-auto">
-            @foreach ($products as $product)
-                <div class="xl:w-1/3"
-                    style="display: flex; flex-flow: column; justify-content: center; align-items: center; padding-bottom: 48px; padding: 16px;">
-                    <img class="w-32 h-32 md:w-48 md:h-48 xl:w-64 xl:h-64 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:grow hover:shadow-lg rounded-lg"
-                        src="{{ $product->getFood()->getImage() }}">
-                    <p class="font-semibold pt-1">{{ $product->getFood()->getName() }}</p>
-                    <p class="pt-1 text-center w-2/3 text-gray-500 h-20">{{ $product->getFood()->getDescription() }}</p>
-                    <p class="pt-1 text-gray-900">RM{{ $product->getFood()->getPrice() }}</p>
-                    <button
-                        class="bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-3"
-                        onclick="productOverlay( {{ $product->getFood()->getFood() }}, {{ json_encode($product->getOptions()) }})">
-                        Add to Cart
-                    </button>
-                </div>
-            @endforeach
+        <div class="container flex flex-col">
+            <h1 class="text-center pt-6 underline font-semibold text-xl text-gray-800">Japanese Food</h1>
+            <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12 w-3/4 h-auto m-auto">
+                @foreach ($products as $product)
+                    <div class="xl:w-1/3"
+                        style="display: flex; flex-flow: column; justify-content: center; align-items: center; padding-bottom: 48px; padding: 16px;">
+                        <img class="w-32 h-32 md:w-48 md:h-48 xl:w-64 xl:h-64 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:grow hover:shadow-lg rounded-lg"
+                            src="{{ $product->getFood()->getImage() }}">
+                        <p class="font-semibold pt-1">{{ $product->getFood()->getName() }}</p>
+                        <p class="pt-1 text-center w-2/3 text-gray-500 h-20">{{ $product->getFood()->getDescription() }}
+                        </p>
+                        <p class="pt-1 text-gray-900">RM{{ $product->getFood()->getPrice() }}</p>
+                        <button
+                            class="bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-3"
+                            onclick="productOverlay( {{ $product->getFood()->getFood() }}, {{ json_encode($product->getOptions()) }})">
+                            Add to Cart
+                        </button>
+                    </div>
+                @endforeach
+            </div>
+            <hr>
+            <h1 class="text-center pt-6 underline font-semibold text-xl text-gray-800">Western Food</h1>
+            <div class="container mx-auto flex items-center flex-wrap pt-6 pb-12 w-3/4 h-auto m-auto">
+                @foreach ($westernFoods as $food)
+                    <div class="xl:w-1/3"
+                        style="display: flex; flex-flow: column; justify-content: center; align-items: center; padding-bottom: 48px; padding: 16px;">
+                        <img class="w-32 h-32 md:w-48 md:h-48 xl:w-64 xl:h-64 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:grow hover:shadow-lg rounded-lg"
+                            src="{{ $food['image'] }}">
+                        <p class="font-semibold pt-1">{{ $food['name'] }}</p>
+                        <p class="pt-1 text-center w-2/3 text-gray-500 h-20">{{ $food['description'] }}</p>
+                        <p class="pt-1 text-gray-900">RM{{ number_format($food['price'], 2) }}</p>
+                        <button
+                            class="bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-3"
+                            onclick="addToCart({{ json_encode($food) }}, 'Regular', 0)">
+                            Add to Cart
+                        </button>
+                    </div>
+                @endforeach
+            </div>
         </div>
         <div
             class="container w-1/4 min-h-screen bg-white shadow-lg border-t-2 border-gray-300 items-center flex flex-col">
