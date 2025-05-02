@@ -2,26 +2,34 @@
 
 namespace App\Payment;
 
-use Illuminate\Support\Facades\Http;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class CashPayment implements PaymentStrategyInterface
 {
     public function processPayment($amount)
     {
+        $order = session('order');
+        $address = session('address');
+        $postalCode = session('postalCode');
+        $city = session('city');
+        $consumeMethod = session('consumeMethod');
+        $total = session('total');
+        $tax = session('tax');
+        $subtotal = session('subtotal');
 
-        // This is just a mock API call for demonstration
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer YOUR_PAYPAL_API_TOKEN',
-        ])->post('https://api.paypal.com/v1/payments/payment', [
-            'amount' => $amount,
-            'currency' => 'USD',
-            // Other PayPal payment details
+        Order::create([
+            'user_id' => Auth::user()->id,
+            'order' => $order,
+            'address' => $address,
+            'postal_code' => $postalCode,
+            'city' => $city,
+            'payment_method' => "Cash",
+            'consumeMethod' => $consumeMethod,
+            'totalPrice' => $total,
+            'taxPrice' => $tax,
+            'subtotalPrice' => $subtotal,
+            'status' => 'pending'
         ]);
-
-        if ($response->successful()) {
-            return 'Payment successful via PayPal';
-        } else {
-            return 'Payment failed via PayPal';
-        }
     }
 }
