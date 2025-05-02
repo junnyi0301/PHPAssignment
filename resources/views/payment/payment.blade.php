@@ -36,13 +36,13 @@
                     <hr class="mb-4">
                     <input type="hidden" name="order" value="{{ $xml }}">
                     <label for="address" class="h-4">Address</label>
-                    <input type="text" name="address" class="w-full h-8 mb-4 rounded-lg">
+                    <input type="text" name="address" class="w-full h-8 mb-4 rounded-lg border-2 border-gray-300">
                     <label for="postalCode" class="h-4">Postal Code</label>
-                    <input type="text" name="postalCode" class="w-full h-8 mb-4 rounded-lg">
+                    <input type="text" name="postalCode" class="w-full h-8 mb-4 rounded-lg border-2 border-gray-300">
                     <label for="city" class="h-4">City</label>
-                    <input type="text" name="city" class="w-full h-8 mb-4 rounded-lg">
+                    <input type="text" name="city" class="w-full h-8 mb-4 rounded-lg border-2 border-gray-300">
                     <label for="country" class="h-4">Country</label>
-                    <input type="text" name="country" class="w-full h-8 mb-4 rounded-lg">
+                    <input type="text" name="country" class="w-full h-8 mb-4 rounded-lg border-2 border-gray-300">
                     <hr class="mt-4">
                     <div class="mt-6 flex flex-row justify-between mx-16">
                         <div class="flex flex-row justify-start mb-4">
@@ -54,10 +54,10 @@
                             <label for="takeAway" class="ml-2">Delivery</label>
                         </div>
                     </div>
-                    <button type="submit"
+                    <button type="submit" name="cash"
                         class="my-4 p-4 bg-indigo-400 hover:bg-indigo-500 transition duration-300 ease-in-out text-white font-semibold rounded-lg w-full">Pay
                         with Cash</button>
-                    <button type="submit"
+                    <button type="submit" name="paypal"
                         class="my-4 p-4 bg-gray-700 hover:bg-black transition duration-300 ease-in-out text-white font-semibold rounded-lg w-full">
                         Pay with PayPal
                     </button>

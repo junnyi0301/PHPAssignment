@@ -8,6 +8,7 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\WesternFoodController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Food;
+use App\Payment\PaypalPayment;
 use Faker\Provider\ar_EG\Payment;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,7 +60,7 @@ Route::get('/western-food', [WesternFoodController::class, 'index']);
 
 Route::post('/pay', [PaymentController::class, 'pay'])->name("pay");
 
-Route::get('success', [PaymentController::class, 'success'])->name('success');
+Route::get('success', [PaypalPayment::class, 'success'])->name('success');
 Route::get('error', [PaymentController::class, 'error'])->name('error');
 
 
