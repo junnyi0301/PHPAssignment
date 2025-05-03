@@ -71,8 +71,6 @@ class PaypalPayment implements PaymentStrategyInterface
                     'status' => 'success'
                 ]);
             }
-
-            return redirect(route('paymentSuccess'));
         }
     }
 

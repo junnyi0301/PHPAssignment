@@ -38,7 +38,7 @@ class MenuController extends Controller
                 $westernFoods = $response->json();
             }
         } catch (\Exception $e) {
-            // handle error, maybe log it or show a message
+            return "Web Service Offline";
         }
 
         return view('order.menu', ['products' => $foodList, 'westernFoods' => $westernFoods]);
