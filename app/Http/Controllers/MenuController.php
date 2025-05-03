@@ -26,8 +26,10 @@ class MenuController extends Controller
 
         foreach ($foods as $food) {
             $decorator = new FoodDecorator($food);
-            $sizeDecorated = new SizeDecorator($decorator);
-            $foodList[] = $sizeDecorated;
+            if ($food['category'] == 'Food') {
+                $decorated = new SizeDecorator($decorator);
+            }
+            $foodList[] = $decorated;
         }
 
         $westernFoods = [];
@@ -38,7 +40,7 @@ class MenuController extends Controller
                 $westernFoods = $response->json();
             }
         } catch (\Exception $e) {
-            // handle error, maybe log it or show a message
+            //Error msg
         }
 
         return view('order.menu', ['products' => $foodList, 'westernFoods' => $westernFoods]);

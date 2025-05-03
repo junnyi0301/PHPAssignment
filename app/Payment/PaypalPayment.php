@@ -72,7 +72,11 @@ class PaypalPayment implements PaymentStrategyInterface
                 ]);
             }
 
-            return redirect(route('paymentSuccess'));
+            if ($consumeMethod == "delivery") {
+                //Delivery
+            } else {
+                return redirect(route('paymentSuccess'));
+            }
         }
     }
 
