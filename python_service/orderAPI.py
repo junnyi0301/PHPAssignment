@@ -6,9 +6,23 @@ app = Flask(__name__)
 @app.route('/api/western-food', methods=['GET'])
 def get_western_food():
     foods = [
-        {"id": 1, "name": "Grilled Chicken", "price": 15.90, "description": "Grilled chicken with tomato sauce", "image": "http://localhost:8001/images/grilled_chicken.jpg"},
-        {"id": 2, "name": "Beef Steak", "price": 22.50, "description": "Steak with potatoes and onions", "image": "http://localhost:8001/images/beef_steak.jpg"},
-        {"id": 3, "name": "Spaghetti Bolognese", "price": 12.80, "description": "Pasta with meat sauce", "image": "http://localhost:8001/images/spaghetti.jpg"},
+        {"id": 1,
+        "name": "Grilled Chicken",
+        "price": 15.90,
+        "description": "Grilled chicken with tomato sauce",
+        "image": "http://localhost:8001/images/grilled_chicken.jpg"},
+
+        {"id": 2,
+        "name": "Beef Steak",
+        "price": 22.50,
+        "description": "Steak with potatoes and onions",
+        "image": "http://localhost:8001/images/beef_steak.jpg"},
+
+        {"id": 3,
+        "name": "Spaghetti Bolognese",
+        "price": 12.80,
+        "description": "Pasta with meat sauce",
+        "image": "http://localhost:8001/images/spaghetti.jpg"},
     ]
     return jsonify(foods)
 
