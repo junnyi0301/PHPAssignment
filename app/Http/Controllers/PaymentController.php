@@ -33,5 +33,11 @@ class PaymentController extends Controller
         }
 
         $paymentMethod->processPayment($request->input('total'));
+
+        if($request->input('consumeMethod') == 'delivery') {
+            return redirect(route('delivery.form'));
+        } else {
+            return redirect(route('paymentSuccess'));
+        }
     }
 }

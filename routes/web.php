@@ -67,8 +67,8 @@ Route::get('error', [PaymentController::class, 'error'])->name('error');
 
 
 Route::middleware('auth', PreventBackHistory::class)->group(function () {
-Route::get('/delivery', [DeliveryController::class, 'showForm'])->name('delivery.form'); // Named route for GET
-Route::post('/delivery', [DeliveryController::class, 'calculate'])->name('delivery.calculate'); // Named route for POST
+    Route::get('/delivery', [DeliveryController::class, 'showForm'])->name('delivery.form');
+    Route::post('/delivery', [DeliveryController::class, 'calculate'])->name('delivery.calculate');
 });
 
 
