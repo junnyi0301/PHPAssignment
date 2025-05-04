@@ -60,6 +60,10 @@ Route::get('/western-food', [WesternFoodController::class, 'index']);
 
 Route::post('/pay', [PaymentController::class, 'pay'])->name("pay");
 
+Route::get('/payment/paymentSuccess', function () {
+    return view('payment.paymentSuccess');
+})->name('paymentSuccess');
+
 Route::get('success', [PaypalPayment::class, 'success'])->name('success');
 Route::get('error', [PaymentController::class, 'error'])->name('error');
 
