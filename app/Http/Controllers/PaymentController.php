@@ -33,5 +33,7 @@ class PaymentController extends Controller
         }
 
         $paymentMethod->processPayment($request->input('total'));
+
+        return redirect(route('paymentSuccess'));
     }
 }

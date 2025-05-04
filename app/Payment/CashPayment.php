@@ -31,7 +31,5 @@ class CashPayment implements PaymentStrategyInterface
             'subtotalPrice' => $subtotal,
             'status' => 'pending'
         ]);
-
-        return redirect(route('paymentSuccess'));
     }
 }
