@@ -9,3 +9,4 @@ if response.status_code == 200:
         print(f"{food['name']} - ${food['price']} ({food['category']})")
 else:
     print("Failed to retrieve food data.")
+

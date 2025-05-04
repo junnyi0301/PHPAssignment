@@ -8,30 +8,23 @@ $results = [];
 if (file_exists('foods.xml')) {
     $doc = new DOMDocument();
     $doc->load('foods.xml');
-
     $xpath = new DOMXPath($doc);
-
-    // Start building XPath query
     $query = "//food";
     $conditions = [];
 
     if (!empty($category)) {
         $conditions[] = "category='$category'";
     }
-
     if (!empty($nameSearch)) {
         $escapedName = htmlspecialchars($nameSearch, ENT_QUOTES);
         $conditions[] = "contains(translate(name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '".strtolower($escapedName)."')";
     }
-
     if (!empty($minPrice)) {
         $conditions[] = "price >= $minPrice";
     }
-
     if ($conditions) {
         $query .= "[" . implode(" and ", $conditions) . "]";
     }
-
     $nodes = $xpath->query($query);
 
     foreach ($nodes as $food) {
