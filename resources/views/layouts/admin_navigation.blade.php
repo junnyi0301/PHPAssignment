@@ -6,7 +6,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center pr-8">
                     <a href="{{ route('home') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <img src="{{ asset('storage/images/icon/icon.jpg') }}" alt="Logo"
+                            class="block h-12 w-auto fill-current text-gray-800">
                     </a>
                 </div>
 
@@ -16,6 +17,9 @@
                         @if (Auth::user()->role == 'admin')
                             <x-nav-link :href="route('admin')" :active="true">
                                 {{ __('Dashboard') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.users')" :active="true">
+                                {{ __('User List') }}
                             </x-nav-link>
                         @endif
                     @endif

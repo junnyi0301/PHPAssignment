@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use App\Events\UserDeleted;
+use App\Listeners\SendGoodbyeMail;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,8 +21,5 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        //
-    }
+    public function boot() {}
 }

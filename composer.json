@@ -14,6 +14,7 @@
         "codeat3/blade-humbleicons": "^1.1",
         "defuse/php-encryption": "^2.4",
         "laravel/framework": "^12.0",
+        "laravel/socialite": "^5.20",
         "laravel/tinker": "^2.10.1",
         "league/omnipay": "^3.2",
         "omnipay/paypal": "^3.0",

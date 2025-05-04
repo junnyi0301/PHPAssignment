@@ -24,6 +24,9 @@
                             <x-nav-link :href="route('admin')" :active="true">
                                 {{ __('Dashboard') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('admin.users')" :active="true">
+                                {{ __('User List') }}
+                            </x-nav-link>
                         @endif
                     @endif
                 </div>

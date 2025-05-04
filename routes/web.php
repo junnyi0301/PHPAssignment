@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\PreventBackHistory;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -9,8 +11,10 @@ use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Models\Food;
 use App\Payment\PaypalPayment;
-use App\Http\Middleware\PreventBackHistory;
 use Illuminate\Support\Facades\Auth;
+use Faker\Provider\ar_EG\Payment;
+use App\Http\Controllers\Auth\GoogleController;
+
 
 Route::get('/', function () {
     return view('home', ['products' => Food::take(8)->get()]);
@@ -52,10 +56,6 @@ Route::middleware(['auth', PreventBackHistory::class, CheckAdmin::class])->group
     Route::post('/admin/store', [FoodController::class, 'store'])->name('admin.store');
 });
 
-Route::get('/payment/paymentSuccess', function () {
-    return view('payment.paymentSuccess');
-})->name('paymentSuccess');
-
 Route::get('/western-food', [WesternFoodController::class, 'index']);
 
 Route::post('/pay', [PaymentController::class, 'pay'])->name("pay");
@@ -63,8 +63,16 @@ Route::post('/pay', [PaymentController::class, 'pay'])->name("pay");
 Route::get('success', [PaypalPayment::class, 'success'])->name('success');
 Route::get('error', [PaymentController::class, 'error'])->name('error');
 
+//new added wj
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [ProfileController::class, 'edit'])->name('dashboard');
+});
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/user-list', [ProfileController::class, 'showUserListAdmin'])->name('admin.users');
+});
 
-
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.login');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
 require __DIR__ . '/auth.php';
