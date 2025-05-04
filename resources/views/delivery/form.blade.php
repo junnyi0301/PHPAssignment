@@ -1,4 +1,3 @@
-resources/views/delivery/form.blade.php
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -10,26 +9,34 @@ resources/views/delivery/form.blade.php
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    {{-- <div class="mb-4">
-                        <a href="{{ url()->previous() }}" class="text-blue-600 hover:text-blue-800">
-                            ← Back to Previous Page
-                        </a>
-                    </div> --}}
-
                     <h1 class="text-2xl font-bold mb-2">Delivery Information</h1>
                     <p class="text-gray-600 mb-4">We currently deliver within Kuala Lumpur only</p>
 
-                    <form method="POST" action="{{ route('delivery.calculate') }}">
+                    <form method="POST" action="{{ route('delivery.calculate') }}" id="deliveryForm">
                         @csrf
 
+                        <!-- 修改区域选择为下拉菜单 -->
                         <div class="mb-4">
                             <label for="area" class="block text-gray-700 text-sm font-bold mb-2">
-                                Area/Neighborhood:
+                                Select Area in Kuala Lumpur:
                             </label>
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                                   name="area" required 
-                                   placeholder="e.g., Taman Danau Kota">
+                            <select name="area" id="area" required
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="" disabled selected>Select your area</option>
+                                <option value="Kuala Lumpur City Centre">Kuala Lumpur City Centre</option>
+                                <option value="Bangsar">Bangsar</option>
+                                <option value="Damansara">Damansara</option>
+                                <option value="Cheras">Cheras</option>
+                                <option value="Ampang">Ampang</option>
+                                <option value="Setapak">Setapak</option>
+                                <option value="Taman Danau Kota">Taman Danau Kota</option>
+                                <option value="Taman Melati">Taman Melati</option>
+                                <option value="Taman Tun Dr Ismail (TTDI)">Taman Tun Dr Ismail (TTDI)</option>
+                                <option value="Wangsa Maju">Wangsa Maju</option>
+                                <!-- 添加更多吉隆坡区域 -->
+                            </select>
                         </div>
+                      
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -72,6 +79,39 @@ resources/views/delivery/form.blade.php
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        // 前端验证确保只接受吉隆坡区域
+        document.getElementById('deliveryForm').addEventListener('submit', function(e) {
+            const areaInput = document.getElementById('area');
+            const selectedArea = areaInput.value.toLowerCase();
+            const $klAreas = [
+    'Kuala Lumpur City Centre',
+    'Bangsar',
+    'Brickfields',
+    'Bukit Bintang',
+    'Cheras',
+    'Damansara',
+    'Desa ParkCity',
+    'Hartamas',
+    'KL Sentral',
+    'Mont Kiara',
+    'Pudu',
+    'Setapak',
+    'Sri Petaling',
+    'Taman Danau Kota',
+    'Taman Melati',
+    'Taman Tun Dr Ismail (TTDI)',
+    'Wangsa Maju'
+            ];
+            
+            if (!klAreas.includes(selectedArea)) {
+                e.preventDefault();
+                alert('We only deliver to areas within Kuala Lumpur. Please select a valid area.');
+                areaInput.focus();
+            }
+        });
+    </script>
+    @endpush
 </x-app-layout>
-
-

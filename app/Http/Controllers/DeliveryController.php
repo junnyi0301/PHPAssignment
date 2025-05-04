@@ -21,6 +21,26 @@ class DeliveryController extends Controller
 
     public function calculate(Request $request)
     {
+        $klAreas = [
+            'Kuala Lumpur City Centre',
+            'Bangsar',
+            'Brickfields',
+            'Bukit Bintang',
+            'Cheras',
+            'Damansara',
+            'Desa ParkCity',
+            'Hartamas',
+            'KL Sentral',
+            'Mont Kiara',
+            'Pudu',
+            'Setapak',
+            'Sri Petaling',
+            'Taman Danau Kota',
+            'Taman Melati',
+            'Taman Tun Dr Ismail (TTDI)',
+            'Wangsa Maju'
+        ];
+
         $validated = $request->validate([
             'area' => 'required|string|max:255',
             'street_number' => 'required|string|max:50',
@@ -100,3 +120,6 @@ class DeliveryController extends Controller
         });
     }
 }
+
+
+

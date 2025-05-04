@@ -14,38 +14,13 @@
 </div>
 
 @push('scripts')
-<script src="https://maps.googleapis.com/maps/api/js?key={{ $googleMapsKey }}&callback=initMap" async defer></script>
 <script>
-    function initMap() {
-        // Get the address from the form data
-        const address = "{{ $deliveryData['street_number'] }}, {{ $deliveryData['house_number'] }}, {{ $deliveryData['area'] }}, Kuala Lumpur";
-        
-        // Display the address text
-        document.getElementById('map-address').textContent = address;
-        
-        // Initialize the map
-        const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 15,
-            center: {lat: 3.1390, lng: 101.6869} // Default to KL coordinates
-        });
-        
-        // Geocode the address
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ address: address }, (results, status) => {
-            if (status === "OK") {
-                map.setCenter(results[0].geometry.location);
-                new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location,
-                    title: "Delivery Location"
-                });
-            } else {
-                console.error("Geocode failed: " + status);
-                document.getElementById('map-address').textContent += " (Map location approximate)";
-            }
-        });
-    }
+    // 添加错误处理
+    window.gm_authFailure = function() {
+        alert('Google Maps authentication failed. Please check your billing account.');
+    };
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ $googleMapsKey }}&callback=initMap" async defer></script>
 @endpush
 
     <div class="py-12">
@@ -69,6 +44,7 @@
     <p class="mt-2 text-sm">
         Delivery Location: <span class="font-medium">{{ $area }}</span>
     </p>
+</br>
     <a href="{{ route('home') }}" 
    class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg
           transition-colors duration-200">
@@ -80,3 +56,4 @@
 
 </div>
 </x-app-layout>
+

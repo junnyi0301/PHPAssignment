@@ -8,6 +8,6 @@ class PeakHourState implements DeliveryTimeState
 {
     public function calculateTime(Carbon $time): Carbon
     {
-        return $time->addMinutes(75);
+        return $time->addMinutes(30);
     }
 }
