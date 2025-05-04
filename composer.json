@@ -36,7 +36,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+             "App\\Patterns\\": "app/Patterns/"
         }
     },
     "autoload-dev": {
@@ -70,6 +71,8 @@
             "dont-discover": []
         }
     },
+
+    
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
@@ -81,4 +84,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true
+    
 }

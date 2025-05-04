@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<delivery_order><area>wangsa maju</area><street>aefe</street><house>{{ old('house_number') }}</house><timestamp>2025-05-04T09:21:36+00:00</timestamp></delivery_order>

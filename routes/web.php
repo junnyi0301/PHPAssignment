@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -98,6 +99,10 @@ Route::get('/query-foods', function () {
     }
 });
 
+Route::middleware('auth', PreventBackHistory::class)->group(function () {
+    Route::get('/delivery', [DeliveryController::class, 'showForm'])->name('delivery.form');
+    Route::post('/delivery', [DeliveryController::class, 'calculate'])->name('delivery.calculate');
+});
 
 
 require __DIR__ . '/auth.php';
