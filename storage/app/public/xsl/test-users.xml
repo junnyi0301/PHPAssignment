@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+    <user>
+        <id>1</id>
+        <name>John Doe</name>
+        <email>john@example.com</email>
+        <role>admin</role>
+        <created_at>2024-01-01</created_at>
+    </user>
+    <user>
+        <id>2</id>
+        <name>Jane Smith</name>
+        <email>jane@example.com</email>
+        <role>user</role>
+        <created_at>2024-03-10</created_at>
+    </user>
+</users>
