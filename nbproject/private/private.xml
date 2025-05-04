@@ -4,9 +4,9 @@
         <file>
             <url>routes/web.php</url>
             <bookmark id="1">
-                <name/>
+                <name />
                 <line>38</line>
-                <key/>
+                <key />
             </bookmark>
         </file>
     </editor-bookmarks>
@@ -17,7 +17,8 @@
             <file>file:/C:/xampp/htdocs/PHPAssignment/app/Http/Controllers/Auth/GoogleController.php</file>
             <file>file:/C:/xampp/htdocs/PHPAssignment/public/storage/xsl/test-users.xml</file>
             <file>file:/C:/xampp/htdocs/PHPAssignment/resources/views/auth/login.blade.php</file>
-            <file>file:/C:/xampp/htdocs/PHPAssignment/database/migrations/2025_05_04_122316_add_google_id_to_users_table.php</file>
+            <file>
+                file:/C:/xampp/htdocs/PHPAssignment/database/migrations/2025_05_04_122316_add_google_id_to_users_table.php</file>
         </group>
     </open-files>
 </project-private>

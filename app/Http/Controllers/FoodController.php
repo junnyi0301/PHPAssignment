@@ -7,6 +7,7 @@ use App\Http\Requests\StoreFoodRequest;
 use App\Http\Requests\UpdateFoodRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Factories\FoodFactory;
 
 class FoodController extends Controller
 {
@@ -31,7 +32,7 @@ class FoodController extends Controller
      */
     public function store(StoreFoodRequest $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'description' => 'nullable|string',
@@ -39,23 +40,9 @@ class FoodController extends Controller
             'image' => 'nullable|image|max:5120',
         ]);
 
-        $food = Food::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'category' => $request->category,
-            'image' => 'storage/images/empty/empty.jpg',
-            'description' => $request->description,
-        ]);
+        $image = $request->file('image');
 
-        if ($request->hasFile('image')) {
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $filename = $food->id . '.' . $extension;
-            $food->image = 'storage/images/products/' . $filename;
-
-            $uploadSuccess   = $request->file('image')->move('storage/images/products', $filename);
-
-            $food->save();
-        }
+        FoodFactory::create($data, $image);
 
         return redirect()->route('admin');
     }

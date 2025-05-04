@@ -38,7 +38,7 @@ class FoodSeeder extends Seeder
                 'description' => 'Chichken cutlet simmered with egg on rice',
                 'price' => 13.96,
                 'image' => 'storage/images/products/3.webp',
-                'category' => 'Drinks',
+                'category' => 'Food',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

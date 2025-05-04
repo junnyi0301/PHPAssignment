@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use Faker\Provider\ar_EG\Payment;
 use App\Http\Controllers\Auth\GoogleController;
 
-
 Route::get('/', function () {
     return view('home', ['products' => Food::take(8)->get()]);
 });
@@ -74,5 +73,31 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+require __DIR__ . '/auth.php';
+Route::get('/query-foods', function () {
+    $category = request('category');
+    $xmlPath = public_path('foods.xml');
+
+    $doc = new DOMDocument();
+    $doc->load($xmlPath);
+
+    $xpath = new DOMXPath($doc);
+    $query = "/foods/food";
+
+    if ($category) {
+        $query .= "[category='$category']";
+    }
+
+    $foods = $xpath->query($query);
+
+    foreach ($foods as $food) {
+        $name = $food->getElementsByTagName('name')->item(0)->nodeValue;
+        $price = $food->getElementsByTagName('price')->item(0)->nodeValue;
+        echo "<p><strong>$name</strong> – $$price</p>";
+    }
+});
+
+
 
 require __DIR__ . '/auth.php';

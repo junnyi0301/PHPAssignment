@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="foods.xsl"?>
+<foods>
+    <food>
+        <name>Tsukimi</name>
+        <price>11.13</price>
+        <description>Udon, soba or ramen noodle with egg</description>
+        <category>Food</category>
+    </food>
+    <food>
+        <name>Unadon</name>
+        <price>28.11</price>
+        <description>Roasted eel on rice</description>
+        <category>Food</category>
+    </food>
+    <food>
+        <name>Chicken Katsudon</name>
+        <price>13.96</price>
+        <description>Chichken cutlet simmered with egg on rice</description>
+        <category>Drink</category>
+    </food>
+    <food>
+        <name>Chicken Katsu Ramen</name>
+        <price>14.91</price>
+        <description>Fried chicken ramen, choice of miso-based or spicy soup</description>
+        <category>Food</category>
+    </food>
+</foods>
