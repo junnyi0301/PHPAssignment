@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +12,7 @@ use App\Models\Food;
 use App\Payment\PaypalPayment;
 use Faker\Provider\ar_EG\Payment;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\PreventBackHistory;
 
 Route::get('/', function () {
     return view('home', ['products' => Food::take(8)->get()]);
@@ -18,7 +20,7 @@ Route::get('/', function () {
 
 Route::get('/home', function () {
     return view('home', ['products' => Food::take(8)->get()]);
-})->middleware('prevent-back-history')->name('home');
+})->middleware(PreventBackHistory::class)->name('home');
 
 Route::post('/logout', function () {
     Auth::logout();
@@ -27,18 +29,18 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-Route::middleware('auth', 'prevent-back-history')->group(function () {
+Route::middleware('auth', PreventBackHistory::class)->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth', 'prevent-back-history')->group(function () {
+Route::middleware('auth', PreventBackHistory::class)->group(function () {
     Route::post('/payment', [MenuController::class, 'payment'])->name('payment');
     Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 });
 
-Route::middleware('auth', 'prevent-back-history')->group(function () {
+Route::middleware('auth', PreventBackHistory::class)->group(function () {
     Route::get('/admin', function () {
         return view('admin.product.index', ['products' => Food::all()]);
     })->name('admin');
@@ -62,6 +64,13 @@ Route::post('/pay', [PaymentController::class, 'pay'])->name("pay");
 
 Route::get('success', [PaypalPayment::class, 'success'])->name('success');
 Route::get('error', [PaymentController::class, 'error'])->name('error');
+
+
+Route::middleware('auth', PreventBackHistory::class)->group(function () {
+Route::get('/delivery', [DeliveryController::class, 'showForm'])->name('delivery.form'); // Named route for GET
+Route::post('/delivery', [DeliveryController::class, 'calculate'])->name('delivery.calculate'); // Named route for POST
+});
+
 
 
 
